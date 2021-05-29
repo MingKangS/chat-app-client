@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import LocalHospitalSharpIcon from '@material-ui/icons/LocalHospitalSharp';
+import '../../styles/createChatroom.css';
 
 export default class CreateChatroom extends Component {
   constructor(props) {
@@ -83,7 +85,9 @@ export default class CreateChatroom extends Component {
     ))
     return (
       <>
-        <button id="createChatroomToggleButton" onClick={() => this.toggleCreateChatroomVisibility()}>Create room</button> 
+        <button id="createChatroomToggleButton" onClick={() => this.toggleCreateChatroomVisibility()}>
+          <LocalHospitalSharpIcon fontSize="60px" id="plusIcon"/>
+        </button> 
         <div id="myModal" className="modal">
           <div class="modal-content">
             <span className="close">&times;</span>

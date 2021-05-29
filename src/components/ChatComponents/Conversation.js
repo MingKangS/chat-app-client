@@ -2,6 +2,8 @@ import TextField from "@material-ui/core/TextField";
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from 'axios';
+import SendIcon from '@material-ui/icons/Send';
+import '../../styles/conversation.css';
 
 function Conversation(props) {
 	const [ chat, setChat ] = useState([]);
@@ -70,16 +72,17 @@ function Conversation(props) {
 				{ chat && renderChat()}
 			</div>
 			<form className="message-form" onSubmit={onMessageSubmit}>
-				<span>
+				<span id="input-container">
 					<input
 						name="message"
 						onChange={(e) => onTextChange(e)}
 						value={message}
 						id="message-input"
 						label="Message"
+						autocomplete="off"
 					/>
 				</span>
-				<button>S</button>
+				<SendIcon id="sendIcon" onClick={onMessageSubmit}></SendIcon>
 			</form>
 			
 		</div>

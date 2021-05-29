@@ -4,6 +4,7 @@ import Conversation from './ChatComponents/Conversation';
 import LoadingChat from './ChatComponents/LoadingChat';
 import CreateChatroom from './ChatComponents/CreateChatroom';
 import Chatrooms from './ChatComponents/Chatrooms';
+import '../styles/chat.css';
 
 export default class Chat extends Component {
   constructor(props) {

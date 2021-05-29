@@ -90,35 +90,69 @@ export default class ExercisesList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Sign up</h3>
-        <form onSubmit={this.handleSubmit}>
+      <div id="form-container">
+        <form class="form" onSubmit={this.onSubmit}>
+          <figure aria-hidden="true">
+            <div class="person-body"></div>
+            <div class="neck skin"></div>
+            <div class="head skin">
+              <div class="eyes"></div>
+              <div class="mouth"></div>
+            </div>
+            <div class="hair"></div>
+            <div class="ears"></div>
+            <div class="shirt-1"></div>
+            <div class="shirt-2"></div>
+          </figure>
           <div className="form-group"> 
-            <label>E-mail: </label>
-            <input  type="text"
+          <label class="label-email">
+              <span class="required">Username</span>
+              <input  
+                type="text"
                 required
-                className="form-control"
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                />
-            <label>Username: </label>
-            <input  type="text"
-                required
-                className="form-control"
+                className="text"
                 value={this.state.username}
                 onChange={this.onChangeUsername}
-                />
-            <label>Password: </label>
-            <input  type="text"
+                name="username" 
+                placeholder="Username" 
+                tabindex="1" 
+                autocomplete="off"
+              />
+            </label>
+            <label class="label-email">
+              <span class="required">Email</span>
+              <input  
+                type="email"
                 required
-                className="form-control"
+                className="text"
+                value={this.state.email}
+                onChange={this.onChangeEmail}
+                name="email" 
+                placeholder="Email" 
+                tabindex="1" 
+                autocomplete="off"
+              />
+            </label>
+            <label class="label-email">
+              <span class="required">Password</span>
+              <input  
+                required
+                className="text"
                 value={this.state.password}
                 onChange={this.onChangePassword}
-                />
+                placeholder="Password" 
+                tabindex="1" 
+                autocomplete="off"
+              />
+            </label>
           </div>
           <div className="form-group">
-            <input type="submit" value="Create User" className="btn btn-primary" />
+            <input type="submit" value="Log in" className="btn btn-primary" />
           </div>
+          <div class="email">
+            <a href="./log-in">Already have an account? Log in!</a>
+          </div>
+          
         </form>
       </div>
     )

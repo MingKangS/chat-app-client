@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../styles/chatrooms.css';
 import axios from 'axios';
 
 export default class Welcome extends Component {

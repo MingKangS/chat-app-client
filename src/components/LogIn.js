@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../styles/form.css';
 
 export default class CreateUser extends Component {
   constructor(props) {
@@ -56,28 +57,43 @@ export default class CreateUser extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Log in</h3>
-        <form onSubmit={this.onSubmit}>
+      <div id="form-container">
+        <form class="form" onSubmit={this.onSubmit}>
+          <img src="../assets/logo2.png"></img>
           <div className="form-group"> 
-            <label>E-mail: </label>
-            <input  type="text"
+            <label class="label-email">
+              <span class="required">Email</span>
+              <input  
                 required
-                className="form-control"
+                className="text"
                 value={this.state.email}
                 onChange={this.onChangeEmail}
-                />
-            <label>Password: </label>
-            <input  type="text"
+                name="email" 
+                placeholder="Email" 
+                tabindex="1" 
+                autocomplete="off"
+              />
+            </label>
+            <label class="label-email">
+              <span class="required">Password</span>
+              <input  
                 required
-                className="form-control"
+                className="text"
                 value={this.state.password}
                 onChange={this.onChangePassword}
-                />
+                placeholder="Password" 
+                tabindex="1" 
+                autocomplete="off"
+              />
+            </label>
           </div>
           <div className="form-group">
             <input type="submit" value="Log in" className="btn btn-primary" />
           </div>
+          <div class="email">
+            <a href="./sign-up">Don't have an account? Sign up!</a>
+          </div>
+          
         </form>
       </div>
     )

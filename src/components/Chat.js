@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Conversation from './ChatComponents.js/Conversation'
-
-
+import Conversation from './ChatComponents/Conversation';
+import LoadingChat from './ChatComponents/LoadingChat';
+import CreateChatroom from './ChatComponents/CreateChatroom';
+import Chatrooms from './ChatComponents/Chatrooms';
 
 export default class Chat extends Component {
   constructor(props) {
@@ -11,45 +12,74 @@ export default class Chat extends Component {
       user: false,
       chatrooms: [],
       openedChatroom: "",
+      loadingChat: true,
+      createChatroomVisible: false,
     }
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.openChatroom = this.openChatroom.bind(this);
+    this.onCreateChatroom = this.onCreateChatroom.bind(this);
   }
 
   componentDidMount() {
     axios.get('/auth/user')
-      .then(res => {this.setState({user: res.data.username})
-      console.log("user get",res.data,res.data.username)
-      if (!res.data.username) {
-        window.location = "/log-in"
-      }
-    });
-    console.log(this.state.user)
-    const user = this.state.user
+      .then(res => {
+        this.setState({user: res.data.username});
+        if (!res.data.username) {
+          window.location = "/log-in";
+        }
+      });
+
     axios.get('/chat/chatrooms')
-      .then(res => {this.setState({chatrooms: res.data})
-      console.log("CR", res.data)
-      
-    });
+      .then(res => {
+        this.setState({chatrooms: res.data, openedChatroom: Object.keys(res.data)[0], loadingChat: false});
+        //this.createModal()
+      });
   }
 
-  
+  openChatroom(room_name) {
+    this.setState({openedChatroom: room_name});
+  }
+
+  onCreateChatroom(newChatroom) {
+    var { chatrooms } = this.state;
+    this.setState({chatrooms: chatrooms.concat([newChatroom])});
+    this.toggleCreateChatroomVisibility();
+  }
+
+  async updateChat(message) {
+    const newMessages = this.state.chatrooms[this.state.openedChatroom].concat([message]);
+    const { openedChatroom } = this.state;
+    const chatrooms = {...this.state.chatrooms};
+    chatrooms[openedChatroom] = newMessages;
+    await this.setState({chatrooms});
+    
+  }
 
   render() {
-    const chatroomDivs = this.state.chatrooms.map((room_name,index) => (
-			<div key={index}>
-        {room_name}
-      </div>
-    ))
-    // const conversationPanels = this.state.chatrooms.map((roomId,index) => (
-    //   <TabPanel index={index}>
-    //     <Conversation roomId={roomId}/>
-    //   </TabPanel>
+    // const chatroomDivs = Object.keys(this.state.chatrooms).map((room_name,index) => (
+		// 	<div className="chatroomDiv" key={index} onClick={() => this.openChatroom(room_name)}>
+    //     <h2 className="chatroomDivName">{room_name}</h2>
+    //   </div>
     // ))
     return (
-    <div>
-      {chatroomDivs}
-      <Conversation chatroom={this.state.currentChatroom} username={this.state.user}/>
-    </div>
+      <>
+        {
+          this.state.loadingChat && (
+            <LoadingChat/>
+          )
+        }
+        {
+          !this.state.loadingChat && (
+            <div id="main-container">
+              <div id="side-container">
+                <CreateChatroom onCreateChatroom={() => this.onCreateChatroom}/>
+                <Chatrooms chatrooms={this.state.chatrooms} openChatroom={(room_name) => this.openChatroom(room_name)}/>
+              </div>
+              <Conversation chatroom={this.state.openedChatroom} username={this.state.user} messages={this.state.chatrooms[this.state.openedChatroom]} updateChat={async (message) => await this.updateChat(message)}/>
+            </div>
+          )
+        }
+      </>
     )
   }
 }

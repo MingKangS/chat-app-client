@@ -8,9 +8,7 @@ import LogIn from "./components/LogIn";
 function App() {
   return (
     <Router>
-    te
       <div className="container">
-      <br/>
       <Route path="/" exact component={Welcome} />
       <Route path="/log-in" component={LogIn} />
       <Route path="/sign-up" component={SignUp} />
